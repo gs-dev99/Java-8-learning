@@ -3,8 +3,12 @@ package com.javastreams.employeemanagement.service;
 import com.javastreams.employeemanagement.data.EmployeeData;
 import com.javastreams.employeemanagement.model.Employee;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class EmployeeService {
 
@@ -66,6 +70,17 @@ public class EmployeeService {
                 .forEach(System.out::println);
 
 
+        System.out.println("\nAverage Salary Per Department:");
+        Map<String, Double> avgSalary = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingDouble(Employee::getSalary)));
+        avgSalary.forEach((dept, avg) ->System.out.println(dept + " :\t " + avg));
+
+
+        // TODO : Find Employees Who Joined Before 2017
+        System.out.println("\nEmployee who joined before 2017:");
+        employees.stream()
+                .filter(e -> e.getJoiningDate().isBefore(LocalDate.of(2017,1,1)))
+                .forEach(System.out::println);
 
 
     }
