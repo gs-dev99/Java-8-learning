@@ -39,6 +39,15 @@ public class EmployeeService {
             return (depCompare != 0) ? depCompare : Double.compare(e1.getSalary(), e2.getSalary());
         }).forEach(System.out::println);
 
+        // TODO : Alternative: Using Comparator.comparing()
+        // Cleaner and more readable! ✅
+        System.out.println("\nMulti-level Sorting : Comparator.comparing()");
+        employees.stream()
+                .sorted(Comparator.comparing(Employee :: getDepartment)
+                .thenComparing(Employee::getSalary))
+        .forEach(System.out::println);
+
+
         // TODO: Multi-Level Sorting: Sort by Name → Then by Salary(High → Low)
         System.out.println();
         employees.stream().sorted((e1, e2) ->
@@ -46,6 +55,18 @@ public class EmployeeService {
             int nameCompare = e1.getName().compareTo(e2.getName());
             return (nameCompare != 0) ? nameCompare : Double.compare(e2.getSalary(), e1.getSalary());
         }).forEach(System.out::println);
+
+        // TODO : Multi-Level Sorting: Sort by Name → Then by Salary(High → Low)
+        // Alternative: Using Comparator.comparing()
+        // Cleaner and more readable! ✅
+        System.out.println("\nMulti-level Sorting : Comparator.comparing()");
+        employees.stream()
+                .sorted(Comparator.comparing(Employee::getName)
+                .thenComparing(Employee::getSalary))
+                .forEach(System.out::println);
+
+
+
 
     }
 }
