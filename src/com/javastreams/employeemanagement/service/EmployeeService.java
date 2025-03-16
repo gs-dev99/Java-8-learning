@@ -5,6 +5,9 @@ import com.javastreams.employeemanagement.model.Employee;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class EmployeeService {
 
@@ -66,6 +69,10 @@ public class EmployeeService {
                 .forEach(System.out::println);
 
 
+        System.out.println("\nAverage Salary Per Department:");
+        Map<String, Double> avgSalary = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingDouble(Employee::getSalary)));
+        avgSalary.forEach((dept, avg) ->System.out.println(dept + " :\t " + avg));
 
 
     }
