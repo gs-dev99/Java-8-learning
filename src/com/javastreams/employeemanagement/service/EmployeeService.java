@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class EmployeeService {
@@ -25,10 +24,13 @@ public class EmployeeService {
         employees.stream().sorted((e1, e2) -> Double.compare(e2.getSalary(), e1.getSalary())).forEach(System.out::println);
         //The sorted() method is used to sort elements in the stream.
 
-
         // TODO: Sort employees by salary (Ascending Order) but more simpler syntax
         System.out.println();
         employees.stream().sorted(Comparator.comparing(Employee::getSalary)).forEach(System.out::println);
+
+        // TODO: Sort employees by salary (Descending Order) but more simpler syntax
+        System.out.println();
+        employees.stream().sorted(Comparator.comparing(Employee::getSalary).reversed()).forEach(System.out::println);
 
         //Reference
 //        Integer.compare(10, 20); // Returns -1 → 10 comes before 20
@@ -47,10 +49,9 @@ public class EmployeeService {
         // Cleaner and more readable! ✅
         System.out.println("\nMulti-level Sorting : Comparator.comparing()");
         employees.stream()
-                .sorted(Comparator.comparing(Employee :: getDepartment)
-                .thenComparing(Employee::getSalary))
-        .forEach(System.out::println);
-
+                .sorted(Comparator.comparing(Employee::getDepartment)
+                        .thenComparing(Employee::getSalary))
+                .forEach(System.out::println);
 
         // TODO: Multi-Level Sorting: Sort by Name → Then by Salary(High → Low)
         System.out.println();
@@ -66,20 +67,20 @@ public class EmployeeService {
         System.out.println("\nMulti-level Sorting : Comparator.comparing()");
         employees.stream()
                 .sorted(Comparator.comparing(Employee::getName)
-                .thenComparing(Employee::getSalary))
+                        .thenComparing(Employee::getSalary))
                 .forEach(System.out::println);
 
 
         System.out.println("\nAverage Salary Per Department:");
-        Map<String, Double> avgSalary = employees.stream()
+        Map<String, Double> avgSalary2 = employees.stream()
                 .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingDouble(Employee::getSalary)));
-        avgSalary.forEach((dept, avg) ->System.out.println(dept + " :\t " + avg));
-
+        avgSalary2.forEach((dept, avg) -> System.out.println(dept + " :\t " + avg));
+        System.out.println(avgSalary2);
 
         // TODO : Find Employees Who Joined Before 2017
         System.out.println("\nEmployee who joined before 2017:");
         employees.stream()
-                .filter(e -> e.getJoiningDate().isBefore(LocalDate.of(2017,1,1)))
+                .filter(e -> e.getJoiningDate().isBefore(LocalDate.of(2017, 1, 1)))
                 .forEach(System.out::println);
 
 
